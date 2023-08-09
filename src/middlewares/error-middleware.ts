@@ -1,0 +1,19 @@
+import { NextFunction, Request, Response } from "express";
+import httpStatus from "http-status";
+
+export function erroHandler(
+  error,
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  console.log(error);
+
+  if (error.type === "notFoundError") {
+    return res.status(httpStatus.NOT_FOUND).send(error.message);
+  }
+
+  return res
+    .send(httpStatus.INTERNAL_SERVER_ERROR)
+    .send("Something went wrong");
+}
