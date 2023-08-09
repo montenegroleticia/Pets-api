@@ -5,14 +5,16 @@ import {
   getPets,
   postPets,
   putPet,
-} from "../Controllers";
+} from "../controllers";
+import { validateSchema } from "../middlewares/schemaMiddleware";
+import { PetSchema } from "../schemas/petSchema";
 
 const petsRouter = Router();
 
-petsRouter.post("/post", postPets);
+petsRouter.post("/post", validateSchema(PetSchema), postPets);
 petsRouter.get("/pets", getPets);
 petsRouter.get("/pets/:id", getPetById);
-petsRouter.put("/pets/:id", putPet);
+petsRouter.put("/pets/:id", validateSchema(PetSchema), putPet);
 petsRouter.delete("/pets/:id", deletePet);
 
 export { petsRouter };
