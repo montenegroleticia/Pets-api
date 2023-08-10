@@ -11,7 +11,7 @@ import { PetSchema } from "../schemas/petSchema";
 
 const petsRouter = Router();
 
-petsRouter.post("/post", validateSchema(PetSchema), postPets);
+petsRouter.post("/pets", validateSchema(PetSchema), postPets);
 petsRouter.get("/pets", getPets);
 petsRouter.get("/pets/:id", getPetById);
 petsRouter.put("/pets/:id", validateSchema(PetSchema), putPet);

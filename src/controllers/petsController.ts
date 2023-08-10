@@ -24,7 +24,7 @@ export async function postPets(req: Request, res: Response) {
 export async function getPets(req: Request, res: Response) {
   try {
     const pets = await getPetsService();
-    res.send(pets).status(httpStatus.OK);
+    res.status(httpStatus.OK).send(pets);
   } catch (error) {
     return res.sendStatus(httpStatus.BAD_REQUEST);
   }
@@ -33,11 +33,14 @@ export async function getPets(req: Request, res: Response) {
 export async function getPetById(req: Request, res: Response) {
   try {
     const id = parseInt(req.params.id);
-    if (idValidator(id)) return res.sendStatus(httpStatus.BAD_REQUEST);
+    if (!idValidator(id)) return res.sendStatus(httpStatus.BAD_REQUEST);
 
     const pet = await getPetByIdService(id);
-    res.send(pet).status(httpStatus.OK);
+    res.status(httpStatus.OK).send(pet);
   } catch (error) {
+    if (error.type === "NotFoundError") {
+      return res.sendStatus(httpStatus.NOT_FOUND);
+    }
     return res.sendStatus(httpStatus.BAD_REQUEST);
   }
 }
@@ -45,7 +48,7 @@ export async function getPetById(req: Request, res: Response) {
 export async function putPet(req: Request, res: Response) {
   try {
     const id = parseInt(req.params.id);
-    if (idValidator(id)) return res.sendStatus(httpStatus.BAD_REQUEST);
+    if (!idValidator(id)) return res.sendStatus(httpStatus.BAD_REQUEST);
 
     const pet = req.body as PetPostOrPut;
 
@@ -59,7 +62,7 @@ export async function putPet(req: Request, res: Response) {
 export async function deletePet(req: Request, res: Response) {
   try {
     const id = parseInt(req.params.id);
-    if (idValidator(id)) return res.sendStatus(httpStatus.BAD_REQUEST);
+    if (!idValidator(id)) return res.sendStatus(httpStatus.BAD_REQUEST);
 
     await deletePetService(id);
     res.sendStatus(httpStatus.OK);

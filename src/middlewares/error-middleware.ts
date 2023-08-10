@@ -9,11 +9,11 @@ export function erroHandler(
 ) {
   console.log(error);
 
-  if (error.type === "notFoundError") {
+  if (error.type === "NotFoundError") {
     return res.status(httpStatus.NOT_FOUND).send(error.message);
   }
 
   return res
-    .send(httpStatus.INTERNAL_SERVER_ERROR)
+    .status(httpStatus.INTERNAL_SERVER_ERROR)
     .send("Something went wrong");
 }

@@ -8,7 +8,9 @@ const app = express();
 app.use(json());
 
 app
-  .get("health", (req: Request, res: Response) => res.sendStatus(httpStatus.OK))
+  .get("/health", (req: Request, res: Response) =>
+    res.sendStatus(httpStatus.OK)
+  )
   .use(petsRouter)
   .use(erroHandler);
 
